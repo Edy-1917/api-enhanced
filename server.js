@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 const logger = require('./util/logger.js')
 const { APP_CONF } = require('./util/config.json')
+const injectSpeedInsights = require('./util/speedInsights')
 
 /**
  * The version check result.
@@ -196,6 +197,10 @@ async function constructServer(moduleDefs) {
    * Serving static files
    */
   app.use(express.static(path.join(__dirname, 'public')))
+  /**
+   * Speed Insights - Inject tracking script into HTML responses
+   */
+  app.use(injectSpeedInsights)
   /**
    * CORS & Preflight request
    */
